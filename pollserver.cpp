@@ -107,14 +107,12 @@ void listenForConnections(int listener) {
     }
 }
 void receive(int fd){
-    printf("some client send data\n");
+    printf("client send data\n");
     char buf[256];
     int nbytes = recv(fd, buf, sizeof buf, 0);
 
     int sender_fd = fd;
-    printf("len: %d\n", nbytes);
     if (nbytes <= 0) {
-        printf("if\n");
         fflush(stdout);
         // Got error or connection closed by client
         if (nbytes == 0) {
@@ -127,7 +125,6 @@ void receive(int fd){
         RemoveHandler(r1,fd);
 
     } else {
-        printf("else\n");
         fflush(stdout);
         // We got some good data from a client
         for (int j = 0; j < r1->fd_count; j++) {
@@ -135,22 +132,11 @@ void receive(int fd){
             // Send to everyone!
             int dest_fd = r1->pfds[j].fd;
             
-            printf("dest_fd: %d\n", dest_fd);
             fflush(stdout);
             // Except the listener and ourselves
             if (dest_fd != r1->listener && dest_fd != sender_fd) {
                 Node *node = newNode(buf, dest_fd);
                 enQ(q1, node);
-                
-                // if (send(dest_fd, buf, nbytes, 0) == -1) {
-                //     // perror("send");
-                //     printf("send err");
-                //     fflush(stdout);
-                // }
-                // else{
-                //     printf("send: %s", buf);
-                //     fflush(stdout);
-                // }
             }
         }
         bzero(buf, 256);
@@ -185,7 +171,6 @@ int main(int argc, char const *argv[]){
         exit(1);
     }
     InstallHandler(r1,(void* (*)(void*))listenForConnections,listener); // install the listener in the pollfds of r1
-    printf("After first install handler\n");
     r1= (preactor) newReactor(r1); // active the reactor's main thread
     return 0;
 }

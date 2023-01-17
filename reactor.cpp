@@ -1,14 +1,12 @@
 #include "reactor.hpp"
 
 void reactorLoop(reactor *reactor){
-    printf("run reactor loop\n");
     int new_fd;        // Newly accept()ed socket descriptor
     struct sockaddr_storage remoteaddr; // Client address
     socklen_t addrlen;
     char buf[256];    // Buffer for client data
     char remoteIP[INET6_ADDRSTRLEN];
     for (;;) {
-        printf("reactor have %d count\n",reactor->fd_count);
         int poll_count = poll(reactor->pfds, reactor->fd_count, -1);
         if (poll_count == -1) {
             perror("poll");
@@ -26,7 +24,6 @@ void reactorLoop(reactor *reactor){
 
 
 void* newReactor(preactor reactor){
-    printf("Active the reactor thread\n");
     pthread_t new_thread;
     if (pthread_create(&new_thread, NULL, (void* (*)(void*))reactorLoop, reactor) != 0) {
         perror("Failed to create thread");
@@ -39,7 +36,6 @@ void* newReactor(preactor reactor){
 
 void InstallHandler(preactor reactor,void*(func)(void*), int file_des){
     // If we don't have room, add more space in the pfds array and the morefuncs array
-    printf("I am in install handler! %d, %d\n", reactor->fd_size, reactor->fd_count);
     if (reactor->fd_count > reactor->fd_size) {
         printf("ERROR: no room for more clients\n");
         return;
@@ -52,7 +48,6 @@ void InstallHandler(preactor reactor,void*(func)(void*), int file_des){
 
 
 void RemoveHandler(preactor reactor,int file_des){
-    printf("i am removing handler\n");
     for (int i = 0; i < reactor->fd_count ; ++i) {
         if (reactor->pfds[i].fd==file_des){
             reactor->pfds[i]=reactor->pfds[reactor->fd_count - 1];

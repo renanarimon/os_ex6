@@ -26,7 +26,6 @@ void toUpper(void* p);
 // Create a new Active Object:
 AO* newAO(Queue *queue, void (*firstFunc)(void *), void (*secondFunc)(void *)){
 
-    printf("***  new AO func  ***\n");
 
    AO* activeObject = (AO*)malloc(sizeof(AO));
    activeObject->flag = 0;
@@ -41,7 +40,6 @@ AO* newAO(Queue *queue, void (*firstFunc)(void *), void (*secondFunc)(void *)){
 // Main loop:
 void* threadAO(void* activeObject){
 
-    printf("***  thread AO func  ***\n");
 
     AO* active = (AO*)activeObject;
 
@@ -58,7 +56,6 @@ void* threadAO(void* activeObject){
 // Delete an Active Object:
 void destroyAO(AO* activeObject) {
 
-    printf("***  destroy AO func  ***\n");
 
     activeObject->flag = 0;
     destroyQ(activeObject->queue);
@@ -67,7 +64,6 @@ void destroyAO(AO* activeObject) {
 
 
 void removeSpecialChars(void* p){
-    printf("***  removeSpecialChars func  ***\n");
     Node *temp = (Node*) p;
 
     int len = strlen(temp->proccess);
@@ -82,19 +78,15 @@ void removeSpecialChars(void* p){
 }
 
 void toUpper(void* p){
-    printf("***  toUpper func  ***\n");
     Node *temp = (Node*) p;
     int i;
         for (i = 0; temp->proccess[i] != '\0'; i++) {
-            printf("pro: %c\n", temp->proccess[i]);
             if (!isalpha(temp->proccess[i])) {
-                printf("is not alph: %c\n", temp->proccess[i]);
                 temp->proccess[i] = ' ';
             } else if (islower(temp->proccess[i])) {
                 temp->proccess[i] = toupper(temp->proccess[i]);
             }
         }
-        printf("end pro: %s", temp->proccess);
 }
 
 void isPalindrom(void* p){

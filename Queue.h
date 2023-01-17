@@ -44,7 +44,6 @@ void enQ(Queue *q, void *data);
 Node *newNode(char *data, int sock)
 {
 
-   printf("***  new Node func  ***\n");
 
    Node *node = (Node *)malloc(sizeof(Node));
 
@@ -63,7 +62,6 @@ Node *newNode(char *data, int sock)
 void deleteNode(void *node)
 {
 
-   printf("***  delete Node func  ***\n");
 
    if (node == NULL)
    {
@@ -78,7 +76,6 @@ void deleteNode(void *node)
 Queue *createQ()
 {
 
-   printf("***  create Queue func  ***\n");
 
    Queue *q = (Queue *)malloc(sizeof(Queue));
 
@@ -95,7 +92,6 @@ Queue *createQ()
 void destroyQ(Queue *q)
 {
 
-   printf("***  destroy Queue func  ***\n");
 
    if (q == NULL)
       return;
@@ -110,7 +106,6 @@ void destroyQ(Queue *q)
 void enQ(Queue *q, void *node)
 {
 
-   printf("***  insert Queue func  ***\n");
 
    pthread_mutex_lock(&(q->lock));
 
@@ -140,7 +135,6 @@ void enQ(Queue *q, void *node)
 void *deQ(Queue *q)
 {
 
-   printf("***  remove Queue func  ***\n");
 
    pthread_mutex_lock(&(q->lock));
 
@@ -178,7 +172,6 @@ void *deQ(Queue *q)
 void sendNode(void *node)
 {
 
-   printf("***  send Node func  ***\n");
 
    if (node == NULL)
    {
@@ -188,7 +181,6 @@ void sendNode(void *node)
    Node *temp = (Node *)node;
    char str[250];
    size_t strSize = sizeof str - 1;
-   printf("~~~~~~~~~~~ %d ~~~~~~~~~~~~", temp->sock);
    fflush(stdout);
    sprintf(str, "original:%.*s", (int)strSize, temp->data);
    if (temp->isPal == 0)

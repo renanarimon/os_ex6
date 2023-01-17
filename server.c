@@ -34,7 +34,6 @@ pthread_t thread[100];
 
 void* threads_handler(void* new_fd){
 
-    printf("***  threads handler func  ***\n");
 
     int fd = *(int*)new_fd;
     

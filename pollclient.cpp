@@ -38,22 +38,6 @@ void sendMSG(){
         }
         bzero(newMSG, MAX_CMD_SIZE);
     }
-
-
-    //    while (TRUE){
-//        printf("trying to send a massage from client\n");
-//        char newMSG[MAX_CMD_SIZE];
-//        fgets(newMSG,MAX_CMD_SIZE,stdin);
-//        newMSG[strlen(newMSG) - 1] = '\0';
-//        // The client want to get out from the chat
-//        if (strncmp(newMSG,"EXIT",4) == 0) {
-//            send(sock, "EXIT", strlen(newMSG), 0);
-//            break;
-//        }
-//        printf("Sender: %s\n",newMSG);
-//        send(sock, newMSG, strlen(newMSG), 0);
-//        printf("massge sent\n");
-//    }
 }
 
 void recvMSG(){
